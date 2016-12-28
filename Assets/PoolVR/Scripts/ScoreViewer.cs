@@ -2,11 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-public class ScoreViewer : MonoBehaviour {
-    public ScoreCounter scoreCounter;
+public class ScoreViewer : MonoBehaviour
+{
+    [Inject]
+    public StageStats Stats { get; private set; }
 
-	void FixedUpdate () {
-        GetComponent<Text>().text = scoreCounter.BallsLeft + " / " + scoreCounter.BallsTotal;
+    void FixedUpdate()
+    {
+        GetComponent<Text>().text = string.Format(@"Hits: {0}
+Left: {1}", Stats.Hits, Stats.BallsLeft);
 	}
 }

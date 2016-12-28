@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class ScoreCounter : MonoBehaviour
 {
-    public int BallsLeft { get; private set; }
-    public int BallsTotal { get; private set; }
-    
-    void Awake () {
-        BallsTotal = BallsLeft = GetComponentsInChildren<Rigidbody>().Length;
+    [Inject]
+    public StageStats Stats { get; private set; }
+
+    void Start() {
+        Stats.BallsTotal = Stats.BallsLeft = GetComponentsInChildren<Rigidbody>().Length;
         StartCoroutine(Count());
 	}
 
@@ -17,7 +18,7 @@ public class ScoreCounter : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1);
-            BallsLeft = GetComponentsInChildren<Rigidbody>().Length;
+            Stats.BallsLeft = GetComponentsInChildren<Rigidbody>().Length;
         }
     }
 	

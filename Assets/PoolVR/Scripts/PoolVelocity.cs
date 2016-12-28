@@ -8,6 +8,9 @@ public class PoolVelocity : MonoBehaviour
     [Inject]
     public ForceSelector ForceSelector { get; set; }
 
+    [Inject]
+    public StageStats Stats { get; private set; }
+
     public Transform direction;
     public float minStrength;
     public float maxStrength;
@@ -21,6 +24,8 @@ public class PoolVelocity : MonoBehaviour
             StartCoroutine(Disable());
 
             GetComponent<AudioSource>().Play();
+
+            Stats.Hits += 1;
         }	
 	}
 
