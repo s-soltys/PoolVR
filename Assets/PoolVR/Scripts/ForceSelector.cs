@@ -1,28 +1,65 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections;
 using UniRx;
-using UnityEngine;
-using UnityEngine.UI;
+using System;
 
-public class ForceSelector : MonoBehaviour
+public class ForceSelector : IDisposable
 {
-    public float period;
-    public Image img;
+    private bool isRunning;
+    private IObservable<float> traingleSignal;
+    private IDisposable sub;
 
     public float Strength { get; private set; }
 
-    void Start()
+    public bool IsRunning
     {
-        CreateTriangleSignal(period).Subscribe(x =>
+        get
         {
-            img.fillAmount = Strength = x;
-        });
+            return isRunning;
+        }
+        set
+        {
+            if (isRunning != value)
+            {
+                isRunning = value;
+                UpdateIsRunningStatus();
+            }
+        }
     }
 
-    public static IObservable<float> CreateTriangleSignal(float period)
+    public ForceSelector(IObservable<float> traingleSignal)
     {
-        return Observable.IntervalFrame(1, FrameCountType.Update)
-            .Scan(0f, (c, _) => c + Time.deltaTime)
-            .Select(t => (period - Mathf.Abs(t % (2 * period) - period)) / period);
+        this.traingleSignal = traingleSignal;
+    }
+
+    void DisposeSubscription()
+    {
+        if (sub != null)
+        {
+            sub.Dispose();
+            sub = null;
+        }
+    }
+
+    void IDisposable.Dispose()
+    {
+        DisposeSubscription();
+    }
+
+    private void UpdateIsRunningStatus()
+    {
+        Strength = 0f;
+
+        if (IsRunning)
+        {
+            sub = traingleSignal.Subscribe(x =>
+            {
+                Strength = x;
+            });
+        }
+        else
+        {
+            DisposeSubscription();
+        }
     }
 }

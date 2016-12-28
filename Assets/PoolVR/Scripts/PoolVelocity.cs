@@ -1,17 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
-public class PoolVelocity : MonoBehaviour {
-    public ForceSelector forceSelector;
+public class PoolVelocity : MonoBehaviour
+{
+    [Inject]
+    public ForceSelector ForceSelector { get; set; }
+
     public Transform direction;
     public float minStrength;
     public float maxStrength;
 	
-	void Update () {
-	    if (Input.GetMouseButton(0))
+	void Update ()
+    {
+	    if (ForceSelector.IsRunning && Input.GetMouseButton(0))
         {
-            var force = Mathf.Lerp(minStrength, maxStrength, forceSelector.Strength);
+            var force = Mathf.Lerp(minStrength, maxStrength, ForceSelector.Strength);
             GetComponent<Rigidbody>().AddForce(force * direction.forward, ForceMode.VelocityChange);
             StartCoroutine(Disable());
 
