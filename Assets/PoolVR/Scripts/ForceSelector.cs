@@ -1,29 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ForceSelector : MonoBehaviour
 {
-    private float cnt;
-    public float speed;
-    public float mod;
-    public float str;
+    public float period;
     public Image img;
 
-    public float Strength
+    public float Strength { get; private set; }
+
+    void Start()
     {
-        get { return str; }
+        CreateTriangleSignal(period).Subscribe(x =>
+        {
+            img.fillAmount = Strength = x;
+        });
     }
 
-    public void Update()
+    public static IObservable<float> CreateTriangleSignal(float period)
     {
-        cnt += speed * Time.deltaTime;
-
-        mod = cnt % 2;
-
-        str = mod < 1 ? mod : 2 - mod;
-
-        img.fillAmount = str;
+        return Observable.IntervalFrame(1, FrameCountType.Update)
+            .Scan(0f, (c, _) => c + Time.deltaTime)
+            .Select(t => (period - Mathf.Abs(t % (2 * period) - period)) / period);
     }
 }
