@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TargetForBalls : MonoBehaviour {
-    void OnCollisionEnter(Collision target)
+    void OnCollisionEnter(Collision collision)
     {
-        if (target.collider.tag == "Ball")
+        if (collision.collider.tag == "Ball")
         {
-            Debug.Log("DESTROYING BALL");
-            Destroy(target.gameObject);
+            GetRidOfBall(collision.collider.gameObject);
         }
     }
 
@@ -16,8 +15,13 @@ public class TargetForBalls : MonoBehaviour {
     {
         if (collider.tag == "Ball")
         {
-            Debug.Log("DESTROYING BALL");
-            Destroy(collider.gameObject);
+            GetRidOfBall(collider.gameObject);
         }
+    }
+
+    private void GetRidOfBall(GameObject ballGameObject)
+    {
+        GetComponent<AudioSource>().Play();
+        Destroy(ballGameObject);
     }
 }

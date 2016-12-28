@@ -14,6 +14,8 @@ public class PoolVelocity : MonoBehaviour {
             var force = Mathf.Lerp(minStrength, maxStrength, forceSelector.Strength);
             GetComponent<Rigidbody>().AddForce(force * direction.forward, ForceMode.VelocityChange);
             StartCoroutine(Disable());
+
+            GetComponent<AudioSource>().Play();
         }	
 	}
 
