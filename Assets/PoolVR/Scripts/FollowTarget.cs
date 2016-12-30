@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 using Zenject;
 
@@ -9,20 +11,40 @@ public class FollowTarget : MonoBehaviour
     public ForceSelector ForceSelector { get; set; }
 
     public Rigidbody targetRb;
-    public float distanceToReset = 0.1f;
     public float velocityThresh;
     public float moveToTargetSpeed;
-    public bool isAtTarget;
-    
+    public float distanceToResume;
+    public float distanceToReset;
+    private IDisposable sub;
+
+    void Start()
+    {
+        sub = Observable
+            .IntervalFrame(5)
+            .Select(_ => Vector3.Distance(targetRb.transform.position, transform.position))
+            .Hysteresis((d, referenceDist) => d - referenceDist, distanceToResume, distanceToReset)
+            .Subscribe(isMoving =>
+            {
+                ForceSelector.IsRunning = !isMoving;
+            });
+    }
+
+    void OnDestroy()
+    {
+        if (sub != null)
+        {
+            sub.Dispose();
+            sub = null;
+        }
+    }
+
     void Update ()
     {
-        isAtTarget = Vector3.Distance(targetRb.transform.position, transform.position) <= distanceToReset;
-        
-        if (targetRb.velocity.magnitude < velocityThresh && !isAtTarget)
+        if (targetRb.velocity.magnitude < velocityThresh && !ForceSelector.IsRunning)
         {
             transform.position = Vector3.Lerp(transform.position, targetRb.transform.position, moveToTargetSpeed);
         }
 
-        ForceSelector.IsRunning = isAtTarget;
 	}
+
 }
