@@ -11,7 +11,7 @@ public class ScoreViewer : MonoBehaviour
 
     void FixedUpdate()
     {
-        GetComponent<Text>().text = string.Format(@"Hits: {0}
-Left: {1}", Stats.Hits, Stats.BallsLeft);
+        GetComponent<Text>().text = string.Format(@"{0} Hits
+{1} Left", Stats.Hits, Stats.BallsLeft);
 	}
 }
