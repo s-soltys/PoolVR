@@ -22,6 +22,6 @@ public class TargetForBalls : MonoBehaviour {
     private void GetRidOfBall(GameObject ballGameObject)
     {
         GetComponent<AudioSource>().Play();
-        Destroy(ballGameObject);
+        ShrinkAndDestroy.GameObject(ballGameObject, 0.25f, 0.5f);
     }
 }
