@@ -12,6 +12,7 @@ public class UITypePicker : MonoBehaviour {
 
     void Start()
     {
+        GvrViewer.VRModeEnabled = AppSettings.VRMode;
         UpdateState();
     }
 
