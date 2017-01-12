@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 public class ScoreCounter : MonoBehaviour
@@ -19,6 +20,11 @@ public class ScoreCounter : MonoBehaviour
         {
             yield return new WaitForSeconds(1);
             Stats.BallsLeft = GetComponentsInChildren<Rigidbody>().Length;
+
+            if (Stats.BallsLeft == 0)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
         }
     }
 	
