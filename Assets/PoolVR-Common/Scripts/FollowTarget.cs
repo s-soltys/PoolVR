@@ -22,7 +22,8 @@ public class FollowTarget : MonoBehaviour
         sub = Observable
             .IntervalFrame(5)
             .Select(_ => Vector3.Distance(targetRb.transform.position, transform.position))
-            .Hysteresis((d, referenceDist) => d - referenceDist, distanceToResume, distanceToReset)
+            .Hysteresis(distanceToResume, distanceToReset)
+            .Select(hysteresisResult => hysteresisResult.IsThresholdReached)
             .Subscribe(isMoving =>
             {
                 ForceSelector.IsRunning = !isMoving;

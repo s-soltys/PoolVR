@@ -9,7 +9,7 @@ public class PoolVRInstaller : MonoInstaller<PoolVRInstaller>
 
     public override void InstallBindings()
     {
-        Container.Bind<IObservable<float>>().FromInstance(GeneratedSignals.CreateTriangleSignal(triangleSignalPeriod));
+        Container.Bind<IObservable<float>>().FromInstance(ObservableSignals.CreateTriangleSignal(triangleSignalPeriod));
         Container.Bind<ForceSelector>().AsSingle();
         Container.Bind<StageStats>().AsSingle();
 
