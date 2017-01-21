@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RotateAround : MonoBehaviour {
+public class ConstantAngleRotation : MonoBehaviour {
     public Vector3 directionEuler;
 
 	void Update () {
