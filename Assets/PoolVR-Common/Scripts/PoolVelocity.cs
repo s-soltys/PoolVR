@@ -9,7 +9,7 @@ public class PoolVelocity : MonoBehaviour
     public ForceSelector ForceSelector { get; set; }
 
     [Inject]
-    public StageStats Stats { get; private set; }
+    public StageStatistics Stats { get; private set; }
 
     public Transform direction;
     public float minStrength;

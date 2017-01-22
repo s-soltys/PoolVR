@@ -7,7 +7,7 @@ using Zenject;
 public class ScoreCounter : MonoBehaviour
 {
     [Inject]
-    public StageStats Stats { get; private set; }
+    public StageStatistics Stats { get; private set; }
 
     void Start() {
         Stats.BallsTotal = Stats.BallsLeft = GetComponentsInChildren<Rigidbody>().Length;

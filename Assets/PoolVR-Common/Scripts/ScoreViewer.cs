@@ -7,7 +7,7 @@ using Zenject;
 public class ScoreViewer : MonoBehaviour
 {
     [Inject]
-    public StageStats Stats { get; private set; }
+    public StageStatistics Stats { get; private set; }
 
     void FixedUpdate()
     {
