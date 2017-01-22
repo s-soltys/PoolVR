@@ -5,14 +5,12 @@ using UniRx;
 using UnityEngine;
 using Zenject;
 
-public class FollowTarget : MonoBehaviour
+public class ForceSelectorStateMediator : MonoBehaviour
 {
     [Inject]
     public ForceSelector ForceSelector { get; set; }
 
     public Rigidbody targetRb;
-    public float velocityThresh;
-    public float moveToTargetSpeed;
     public float distanceToResume;
     public float distanceToReset;
     private IDisposable sub;
@@ -26,7 +24,7 @@ public class FollowTarget : MonoBehaviour
             .Select(hysteresisResult => hysteresisResult.IsThresholdReached)
             .Subscribe(isMoving =>
             {
-                ForceSelector.IsRunning = !isMoving;
+                ForceSelector.IsActive = !isMoving;
             });
     }
 
@@ -38,14 +36,4 @@ public class FollowTarget : MonoBehaviour
             sub = null;
         }
     }
-
-    void Update ()
-    {
-        if (targetRb.velocity.magnitude < velocityThresh && !ForceSelector.IsRunning)
-        {
-            transform.position = Vector3.Lerp(transform.position, targetRb.transform.position, moveToTargetSpeed);
-        }
-
-	}
-
 }

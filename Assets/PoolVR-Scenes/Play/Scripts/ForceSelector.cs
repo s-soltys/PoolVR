@@ -6,12 +6,12 @@ using System;
 public class ForceSelector : IDisposable
 {
     private bool isRunning;
-    private IObservable<float> traingleSignal;
+    private IObservable<float> triangleSignal;
     private IDisposable sub;
 
     public float Strength { get; private set; }
 
-    public bool IsRunning
+    public bool IsActive
     {
         get
         {
@@ -27,9 +27,9 @@ public class ForceSelector : IDisposable
         }
     }
 
-    public ForceSelector(IObservable<float> traingleSignal)
+    public ForceSelector(float triangleSignalPeriod)
     {
-        this.traingleSignal = traingleSignal;
+        this.triangleSignal = ObservableSignals.CreateTriangleSignal(triangleSignalPeriod);
     }
 
     void DisposeSubscription()
@@ -50,12 +50,9 @@ public class ForceSelector : IDisposable
     {
         Strength = 0f;
 
-        if (IsRunning)
+        if (IsActive)
         {
-            sub = traingleSignal.Subscribe(x =>
-            {
-                Strength = x;
-            });
+            sub = triangleSignal.Subscribe(s => Strength = s);
         }
         else
         {

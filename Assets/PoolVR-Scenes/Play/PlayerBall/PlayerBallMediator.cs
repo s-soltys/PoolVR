@@ -14,7 +14,7 @@ public class PlayerBallMediator : MonoBehaviour
     
 	void Update ()
     {
-	    if (ForceSelector.IsRunning && Input.GetMouseButtonUp(0))
+	    if (ForceSelector.IsActive && Input.GetMouseButtonUp(0))
         {
             GetComponent<PlayerBallHitAction>().Hit(ForceSelector.Strength);
             Stats.Hits += 1;
