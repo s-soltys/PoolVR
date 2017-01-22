@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-public class UITypePicker : MonoBehaviour {
+public class UITypePicker : MonoBehaviour
+{
+    [Inject]
+    public AppSettings AppSettings { get; set; }
+
     [Inject]
     public GvrViewer GvrViewer { get; set; }
 
