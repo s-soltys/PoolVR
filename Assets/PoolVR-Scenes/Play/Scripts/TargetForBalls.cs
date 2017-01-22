@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TargetForBalls : MonoBehaviour {
+public class TargetForBalls : MonoBehaviour
+{
     void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Ball")

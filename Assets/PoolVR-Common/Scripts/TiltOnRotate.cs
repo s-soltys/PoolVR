@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TiltOnRotate : MonoBehaviour {
+public class TiltOnRotate : MonoBehaviour
+{
     public Vector2 scale;
 
 	void Update () {

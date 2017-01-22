@@ -12,6 +12,7 @@ public class PoolVRInstaller : MonoInstaller<PoolVRInstaller>
         Container.Bind<IObservable<float>>().FromInstance(ObservableSignals.CreateTriangleSignal(triangleSignalPeriod));
         Container.Bind<ForceSelector>().AsSingle();
         Container.Bind<StageStatistics>().AsSingle();
+        Container.Bind<GameplayCompleteAction>().AsSingle();
 
         Container.Bind<GvrViewer>().FromPrefab(gvrViewerPrefab);
     }
