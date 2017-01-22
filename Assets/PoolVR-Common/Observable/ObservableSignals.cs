@@ -12,4 +12,12 @@ public static class ObservableSignals
             .Scan(0f, (c, _) => c + Time.deltaTime)
             .Select(t => (period - Mathf.Abs(t % (2 * period) - period)) / period);
     }
+
+    public static IObservable<T> GetDistinctPropertyUntilChangedOnUpdate<T>(Func<T> selector)
+    {
+        return Observable.EveryUpdate()
+            .Select(_ => selector())
+            .StartWith(selector())
+            .DistinctUntilChanged();
+    }
 }
