@@ -11,7 +11,7 @@ public class PoolVRInstaller : MonoInstaller<PoolVRInstaller>
     {
         Container.Bind<ForceSelector>().FromInstance(new ForceSelector(triangleSignalPeriod));
         Container.Bind<StageStatistics>().AsSingle();
-        Container.Bind<GameplayCompleteAction>().AsSingle();
         Container.Bind<GvrViewer>().FromPrefab(gvrViewerPrefab);
+        Container.BindAllInterfacesAndSelf<GameplayCompleteAction>().To<GameplayCompleteAction>().AsSingle();
     }
 }
